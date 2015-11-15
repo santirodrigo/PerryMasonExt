@@ -3,7 +3,7 @@
     Created on : 23-sep-2015, 15:23:27
     Author     : sergi.soriano.bial
 --%>
-<%@page import="AD.login"%>
+<%@page import="ADServlets.login"%>
 <%@page import="java.util.logging.Logger"%>
 <%@page import="java.util.logging.Level"%>
 <%@page import="java.sql.SQLException"%>
@@ -21,94 +21,135 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Buscar un vuelo - Perry Mason & Co.</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <LINK REL=StyleSheet HREF="CSS/styles.css" TYPE="text/css" >
+        <script src="JS/jquery.min.js"></script>
+        <script src="JS/jquery.dropotron.min.js"></script>
+        <script src="JS/skel.min.js"></script>
+        <script src="JS/util.js"></script>
+        <script src="JS/main.js"></script>
         <script src="JS/functions.js"></script>
-
     </head>
+    <html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Sesión cerrada</title>
+    </head>
+    <body class="homepage">
+        <div id="page-wrapper">
+            <!-- Header -->
+            <div id="header-wrapper">
+                <header id="header" class="container">
+                    <!-- Logo -->
+                    <div id="logo">
+                        <h1><a href="index.jsp">Perry Mason</a></h1>
+                        <span>Hola <%=session.getAttribute("user") %>, (<a href="logout.jsp">Cerrar sesión</a>) </span>
+                    </div>
+                    <!-- Nav -->
+                    <nav id="nav">
+                        <ul>
+                            <li><a href="index.jsp">Inicio</a></li>
+                            <li><a href="altaVuelo.jsp">Alta vuelo</a></li>
+                            <li><a href="altaHotel.jsp">Alta hotel</a></li>
+                            <li><a href="buscarVuelo.jsp">Busca vuelo</a></li>
+                            <li class="current"><a href="buscarHotel.jsp">Busca hotel</a></li>
+                        </ul>
+                    </nav>
+                </header>
+            </div>
+            <div id="main-wrapper">
+                <div class="container">
+                    <div id="content">
+                        <form id="formBuscaHotel"  method="post" action="BuscarHotel">
+                            <table>
+                                <tr>
+                                    <th>Buscar</th>
+                                    <td>
+                                        <input type="text" id="textSearch" name="textSearch" autofocus />
+                                    </td>
+                                    <th>Cadena</th>
+                                    <td>
+                                        <select id="busqCadenaHotel" name="busqCadenaHotel">
+                                            <option value=""></option>
+                                            <% 
+                                                try {
+                                                    connection = DriverManager.getConnection("jdbc:sqlite:F:\\UNI\\AD\\exemple.db");
+                                                    String selectStatement = "SELECT DISTINCT cadena FROM hoteles";
+                                                    PreparedStatement prepStmt = connection.prepareStatement(selectStatement);
+                                                    ResultSet rs = prepStmt.executeQuery();
+                                                    while(rs.next()) {
+                                                        out.println("<option value=\"" + rs.getString(1) + "\">" + rs.getString(1) + "</option>");
+                                                    }
+                                                } catch (SQLException ex) {
+                                                    Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+                                                }
+                                                finally
+                                                {
+                                                    try
+                                                    {
+                                                      if(connection != null)
+                                                        connection.close();
+                                                    }
+                                                    catch(SQLException e)
+                                                    {
+                                                      // connection close failed.
+                                                      System.err.println(e.getMessage());
+                                                    }
+                                                }
+                                            %>
+                                        </select>
+                                    </td>
+                                    <th>Ciudad</th>
+                                    <td>
+                                        <select id="busqCiudadHotel" name="busqCiudadHotel">
+                                            <option value=""></option>
+                                            <% 
+                                                try {
+                                                    connection = DriverManager.getConnection("jdbc:sqlite:F:\\UNI\\AD\\exemple.db");
+                                                    String selectStatement = "SELECT DISTINCT ciudad FROM hoteles";
+                                                    PreparedStatement prepStmt = connection.prepareStatement(selectStatement);
+                                                    ResultSet rs = prepStmt.executeQuery();
+                                                    while(rs.next()) {
+                                                        out.println("<option value=\"" + rs.getString(1) + "\">" + rs.getString(1) + "</option>");
+                                                    }
+                                                } catch (SQLException ex) {
+
+                                                    Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+                                                }
+                                                finally
+                                                {
+                                                    try
+                                                    {
+                                                      if(connection != null)
+                                                        connection.close();
+                                                    }
+                                                    catch(SQLException e)
+                                                    {
+                                                      // connection close failed.
+                                                      System.err.println(e.getMessage());
+                                                    }
+                                                }
+                                            %>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <button onclick="sendSearchHotel();return false;">Buscar</button>
+                                    </td>
+
+                                </tr>
+                            </table>
+                        </form>
+                        <div id="formResult" name="formResult"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+
     <body>
-        <form id="formBuscaHotel"  method="post" action="BuscarHotel">
-            <h1>Perry Mason & Co</h1>
-            <h2>Buscar un hotel</h2>
-            <table>
-                <tr>
-                    <th>Buscar</th>
-                    <td>
-                        <input type="text" id="textSearch" name="textSearch" autofocus />
-                    </td>
-                    <th>Cadena</th>
-                    <td>
-                        <select id="busqCadenaHotel" name="busqCadenaHotel">
-                            <option value=""></option>
-                            <% 
-                                try {
-                                    connection = DriverManager.getConnection("jdbc:sqlite:F:\\UNI\\AD\\exemple.db");
-                                    String selectStatement = "SELECT DISTINCT cadena FROM hoteles";
-                                    PreparedStatement prepStmt = connection.prepareStatement(selectStatement);
-                                    ResultSet rs = prepStmt.executeQuery();
-                                    while(rs.next()) {
-                                        out.println("<option value=\"" + rs.getString(1) + "\">" + rs.getString(1) + "</option>");
-                                    }
-                                } catch (SQLException ex) {
-                                    Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-                                }
-                                finally
-                                {
-                                    try
-                                    {
-                                      if(connection != null)
-                                        connection.close();
-                                    }
-                                    catch(SQLException e)
-                                    {
-                                      // connection close failed.
-                                      System.err.println(e.getMessage());
-                                    }
-                                }
-                            %>
-                        </select>
-                    </td>
-                    <th>Ciudad</th>
-                    <td>
-                        <select id="busqCiudadHotel" name="busqCiudadHotel">
-                            <option value=""></option>
-                            <% 
-                                try {
-                                    connection = DriverManager.getConnection("jdbc:sqlite:F:\\UNI\\AD\\exemple.db");
-                                    String selectStatement = "SELECT DISTINCT ciudad FROM hoteles";
-                                    PreparedStatement prepStmt = connection.prepareStatement(selectStatement);
-                                    ResultSet rs = prepStmt.executeQuery();
-                                    while(rs.next()) {
-                                        out.println("<option value=\"" + rs.getString(1) + "\">" + rs.getString(1) + "</option>");
-                                    }
-                                } catch (SQLException ex) {
-
-                                    Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-                                }
-                                finally
-                                {
-                                    try
-                                    {
-                                      if(connection != null)
-                                        connection.close();
-                                    }
-                                    catch(SQLException e)
-                                    {
-                                      // connection close failed.
-                                      System.err.println(e.getMessage());
-                                    }
-                                }
-                            %>
-                        </select>
-                    </td>
-                    <td>
-                        <button onclick="sendSearchHotel();return false;">Buscar</button>
-                    </td>
-
-                </tr>
-            </table>
-        </form>
-        <p><a href="menu.jsp">Volver al menú inicial</a></p>
-        <div id="formResult" name="formResult"></div>
+        
     </body>
 </html>
