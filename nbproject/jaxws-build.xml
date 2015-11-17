@@ -26,22 +26,6 @@
             <isset property="conf.dir"/>
         </condition>
     </target>
-    <target name="wsimport-client-hotelWS" depends="wsimport-init">
-        <mkdir dir="${build.generated.dir}/jax-wsCache/hotelWS"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/hotelWS" destdir="${build.generated.dir}/jax-wsCache/hotelWS" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/hotelWS/wsdl/localhost_8080/hotel/hotelWS.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/hotel/hotelWS?wsdl" xnocompile="true" xendorsed="true">
-            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/hotelWS/wsdl/localhost_8080/hotel/hotelWS.wsdl"/>
-            <produces dir="${build.generated.dir}/jax-wsCache/hotelWS"/>
-        </wsimport>
-        <copy todir="${build.generated.sources.dir}/jax-ws">
-            <fileset dir="${build.generated.dir}/jax-wsCache/hotelWS">
-                <include name="**/*.java"/>
-            </fileset>
-        </copy>
-    </target>
-    <target name="wsimport-client-clean-hotelWS" depends="-init-project">
-        <delete dir="${build.generated.sources.dir}/jax-ws/hotel"/>
-        <delete dir="${build.generated.dir}/jax-wsCache/hotelWS"/>
-    </target>
     <target name="wsimport-client-vueloWS" depends="wsimport-init">
         <mkdir dir="${build.generated.dir}/jax-wsCache/vueloWS"/>
         <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/vueloWS" destdir="${build.generated.dir}/jax-wsCache/vueloWS" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/vueloWS/wsdl/localhost_8080/vuelo/vueloWS.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/vuelo/vueloWS?wsdl" xnocompile="true" xendorsed="true">
@@ -58,21 +42,21 @@
         <delete dir="${build.generated.sources.dir}/jax-ws/vuelo"/>
         <delete dir="${build.generated.dir}/jax-wsCache/vueloWS"/>
     </target>
-    <target name="wsimport-client-hotelWS_1" depends="wsimport-init">
-        <mkdir dir="${build.generated.dir}/jax-wsCache/hotelWS_1"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/hotelWS_1" destdir="${build.generated.dir}/jax-wsCache/hotelWS_1" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/hotelWS_1/wsdl/localhost_8080/hotel/hotelWS.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/hotel/hotelWS?wsdl" xnocompile="true" xendorsed="true" package="ADServlets">
-            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/hotelWS_1/wsdl/localhost_8080/hotel/hotelWS.wsdl"/>
-            <produces dir="${build.generated.dir}/jax-wsCache/hotelWS_1"/>
+    <target name="wsimport-client-hotelWS" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/hotelWS"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/hotelWS" destdir="${build.generated.dir}/jax-wsCache/hotelWS" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/hotelWS/wsdl/localhost_8080/hotel/hotelWS.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/hotel/hotelWS?wsdl" xnocompile="true" xendorsed="true">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/hotelWS/wsdl/localhost_8080/hotel/hotelWS.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/hotelWS"/>
         </wsimport>
         <copy todir="${build.generated.sources.dir}/jax-ws">
-            <fileset dir="${build.generated.dir}/jax-wsCache/hotelWS_1">
+            <fileset dir="${build.generated.dir}/jax-wsCache/hotelWS">
                 <include name="**/*.java"/>
             </fileset>
         </copy>
     </target>
-    <target name="wsimport-client-clean-hotelWS_1" depends="-init-project">
-        <delete dir="${build.generated.sources.dir}/jax-ws/ADServlets"/>
-        <delete dir="${build.generated.dir}/jax-wsCache/hotelWS_1"/>
+    <target name="wsimport-client-clean-hotelWS" depends="-init-project">
+        <delete dir="${build.generated.sources.dir}/jax-ws/hotel"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/hotelWS"/>
     </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-hotelWS, wsimport-client-vueloWS, wsimport-client-hotelWS_1"/>
+    <target name="wsimport-client-generate" depends="wsimport-client-vueloWS, wsimport-client-hotelWS"/>
 </project>

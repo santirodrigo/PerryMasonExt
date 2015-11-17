@@ -2,38 +2,6 @@
 <jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
   <services/>
   <clients>
-    <client name="hotelWS">
-      <wsdl-url>http://localhost:8080/hotel/hotelWS?wsdl</wsdl-url>
-      <local-wsdl-file>localhost_8080/hotel/hotelWS.wsdl</local-wsdl-file>
-      <package-name>hotel</package-name>
-      <catalog-file>catalog.xml</catalog-file>
-      <wsimport-options>
-        <wsimport-option>
-          <wsimport-option-name>extension</wsimport-option-name>
-          <wsimport-option-value>true</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>verbose</wsimport-option-name>
-          <wsimport-option-value>true</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>fork</wsimport-option-name>
-          <wsimport-option-value>false</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>wsdlLocation</wsimport-option-name>
-          <wsimport-option-value>http://localhost:8080/hotel/hotelWS?wsdl</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>xnocompile</wsimport-option-name>
-          <wsimport-option-value>true</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>xendorsed</wsimport-option-name>
-          <wsimport-option-value>true</wsimport-option-value>
-        </wsimport-option>
-      </wsimport-options>
-    </client>
     <client name="vueloWS">
       <wsdl-url>http://localhost:8080/vuelo/vueloWS?wsdl</wsdl-url>
       <local-wsdl-file>localhost_8080/vuelo/vueloWS.wsdl</local-wsdl-file>
@@ -66,10 +34,10 @@
         </wsimport-option>
       </wsimport-options>
     </client>
-    <client name="hotelWS_1">
+    <client name="hotelWS">
       <wsdl-url>http://localhost:8080/hotel/hotelWS?wsdl</wsdl-url>
       <local-wsdl-file>localhost_8080/hotel/hotelWS.wsdl</local-wsdl-file>
-      <package-name forceReplace="true">ADServlets</package-name>
+      <package-name>hotel</package-name>
       <catalog-file>catalog.xml</catalog-file>
       <wsimport-options>
         <wsimport-option>
@@ -95,10 +63,6 @@
         <wsimport-option>
           <wsimport-option-name>xendorsed</wsimport-option-name>
           <wsimport-option-value>true</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>package</wsimport-option-name>
-          <wsimport-option-value>ADServlets</wsimport-option-value>
         </wsimport-option>
       </wsimport-options>
     </client>
