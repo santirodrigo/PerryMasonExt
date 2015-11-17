@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
-    <system systemId="http://localhost:8080/hotel/hotelWS?wsdl" uri="src/conf/xml-resources/web-service-references/hotelWS/wsdl/localhost_8080/hotel/hotelWS.wsdl"/>
-    <system systemId="http://localhost:8080/hotel/hotelWS?xsd=1" uri="src/conf/xml-resources/web-service-references/hotelWS/wsdl/localhost_8080/hotel/hotelWS.xsd_1.xsd"/>
     <system systemId="http://localhost:8080/vuelo/vueloWS?wsdl" uri="src/conf/xml-resources/web-service-references/vueloWS/wsdl/localhost_8080/vuelo/vueloWS.wsdl"/>
     <system systemId="http://localhost:8080/vuelo/vueloWS?xsd=1" uri="src/conf/xml-resources/web-service-references/vueloWS/wsdl/localhost_8080/vuelo/vueloWS.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/hotel/hotelWS?wsdl" uri="src/conf/xml-resources/web-service-references/hotelWS_1/wsdl/localhost_8080/hotel/hotelWS.wsdl"/>
+    <system systemId="http://localhost:8080/hotel/hotelWS?xsd=1" uri="src/conf/xml-resources/web-service-references/hotelWS_1/wsdl/localhost_8080/hotel/hotelWS.xsd_1.xsd"/>
 </catalog>

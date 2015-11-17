@@ -26,7 +26,7 @@ import vuelo.VueloWS_Service;
  * @author Santi
  */
 @WebServlet(name = "LibresVuelos", urlPatterns = {"/LibresVuelos"})
-public class LibresVuelos extends HttpServlet {
+public class SOAPVuelos extends HttpServlet {
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/vuelo/vueloWS.wsdl")
     private VueloWS_Service service;
     
