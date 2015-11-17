@@ -38,10 +38,24 @@
                     <nav id="nav">
                         <ul>
                             <li><a href="index.jsp">Inicio</a></li>
-                            <li><a href="altaVuelo.jsp">Alta vuelo</a></li>
-                            <li class="current"><a href="altaHotel.jsp">Alta hotel</a></li>
-                            <li><a href="buscarVuelo.jsp">Busca vuelo</a></li>
-                            <li><a href="buscarHotel.jsp">Busca hotel</a></li>
+                            <li>
+                                <a href="">Vuelo</a>
+                                <ul>
+                                    <li><a href="index.jsp">Insertar vuelo</a></li>
+                                    <li><a href="altaVuelo.jsp">Consultar vuelo</a></li>
+                                    <li class="current"><a href="altaHotel.jsp">Consultar plazas</a></li>
+                                    <li><a href="buscarVuelo.jsp">Reservar plazas</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="">Hotel</a>
+                                <ul>
+                                    <li><a href="index.jsp">Insertar hotel</a></li>
+                                    <li><a href="altaVuelo.jsp">Consultar hotel</a></li>
+                                    <li class="current"><a href="altaHotel.jsp">Consultar habitaciones</a></li>
+                                    <li><a href="buscarVuelo.jsp">Reservar habitaciones</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </nav>
                 </header>
