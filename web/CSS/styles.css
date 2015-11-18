@@ -1481,7 +1481,6 @@ and open the template in the editor.
 	form input[type="text"],
 	form input[type="email"],
 	form input[type="password"],
-	form select,
 	form textarea {
 		-webkit-appearance: none;
 		display: block;
@@ -1508,6 +1507,7 @@ and open the template in the editor.
 	form select {
 		line-height: 3em;
 		padding: 0 1em;
+                border: 1px solid #EEE;
 	}
 
 	form textarea {
