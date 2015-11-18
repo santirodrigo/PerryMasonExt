@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -90,10 +90,9 @@ public class consultaHabitacionesHotel extends HttpServlet {
         int numHab;
         int idHotel = Integer.valueOf(request.getParameter("hotel"));
         int fecha = Integer.valueOf(request.getParameter("fecha"));
-        if (request.getParameter("webservice") == "SOAP")
+        if ("SOAP".equals(request.getParameter("webservice")))
         {
-            SOAPHotel hotel = new SOAPHotel();
-            numHab = hotel.consultaLibres(idHotel, fecha);
+            numHab = SOAPHotel.consultaLibres(idHotel, fecha);
         }
         else
         {
@@ -102,9 +101,10 @@ public class consultaHabitacionesHotel extends HttpServlet {
         }
         if (numHab == -1)
         {
-            //control de errores de BD tener en cuenta!!
+            out.print("No existe este hotel con esta fecha");
         }
-        if (numHab == 1) out.print("Hay 1 habitación disponible");
+        if (numHab == 0) out.print("No hay habitaciones disponibles");
+        else if (numHab == 1) out.print("Hay 1 habitación disponible");
         else if (numHab > 1) out.print("Hay "+ numHab +" habitaciones disponible");
     }
 
