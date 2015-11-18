@@ -34,12 +34,12 @@ and open the template in the editor.
                 <div class="container">
                     <div id="content">
                         <form id="formLogIn" method="post" action="login">
-                            <table>
-                                <tr >
-                                    <td style="vertical-align:middle; padding-bottom: 1em;" >
+                            <table class="default">
+                                <tr>
+                                    <td style="vertical-align:middle;" >
                                         <h1>User </h1>
                                     </td>
-                                    <td style="padding-bottom: 1em;">
+                                    <td>
                                         <input type="text" size="15" name="user" id="user" autofocus required/>
                                     </td>
                                 </tr>
@@ -48,7 +48,7 @@ and open the template in the editor.
                                     <td style="vertical-align:middle;" >
                                         <h1>Password </h1>
                                     </td>
-                                    <td style="padding-bottom: 1em;">
+                                    <td>
                                         <input type="password" size="15" name="pass" id="pass" required/>
                                     </td>
                                 </tr>

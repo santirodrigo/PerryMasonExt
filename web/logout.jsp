@@ -39,20 +39,15 @@
             <div id="main-wrapper">
                 <div class="container">
                     <div id="content">
-                        
+                        <h2>Sesión cerrada</h2>
+                        <%  if (session.getAttribute("user") == null) response.sendRedirect("login.jsp");
+                            else session.setAttribute("user", null);%>
+                        <h1>Se ha cerrado tu sesión correctamente</h1>
+                        <a href="login.jsp">Volver a iniciar sesión</a>
+
                     </div>
                 </div>
             </div>
         </div>
-    </body>
-</html>
-
-    <body>
-        <h1>Perry Mason & Co</h1>
-        <h2>Sesión cerrada</h2>
-        <%  if (session.getAttribute("user") == null) response.sendRedirect("login.jsp");
-            else session.setAttribute("user", null);%>
-        <h1>Se ha cerrado tu sesión correctamente</h1>
-        <a href="login.jsp">Volver a iniciar sesión</a>
     </body>
 </html>

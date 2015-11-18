@@ -54,19 +54,19 @@
                             <li>
                                 <a href="">Vuelo</a>
                                 <ul>
-                                    <li><a href="index.jsp">Insertar vuelo</a></li>
-                                    <li><a href="altaVuelo.jsp">Consultar vuelo</a></li>
-                                    <li class="current"><a href="altaHotel.jsp">Consultar plazas</a></li>
-                                    <li><a href="buscarVuelo.jsp">Reservar plazas</a></li>
+                                    <li><a href="altaVuelo.jsp">Insertar vuelo</a></li>
+                                    <li><a href="buscarVuelo.jsp">Consultar vuelo</a></li>
+                                    <li><a href="LibresVuelos.jsp">Consultar plazas</a></li>
+                                    <li><a href="ReservarVuelo.jsp">Reservar plazas</a></li>
                                 </ul>
                             </li>
-                            <li>
+                            <li class="current">
                                 <a href="">Hotel</a>
                                 <ul>
-                                    <li><a href="index.jsp">Insertar hotel</a></li>
-                                    <li><a href="altaVuelo.jsp">Consultar hotel</a></li>
-                                    <li class="current"><a href="altaHotel.jsp">Consultar habitaciones</a></li>
-                                    <li><a href="buscarVuelo.jsp">Reservar habitaciones</a></li>
+                                    <li><a href="altaHotel.jsp">Insertar hotel</a></li>
+                                    <li><a href="buscarHotel.jsp">Consultar hotel</a></li>
+                                    <li ><a href="LibresHotel.jsp">Consultar habitaciones</a></li>
+                                    <li><a href="ReservarHotel.jsp">Reservar habitaciones</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -76,16 +76,16 @@
             <div id="main-wrapper">
                 <div class="container">
                     <div id="content">
-                        <form id="formBuscaHotel"  method="post" action="BuscarHotel">
-                            <table>
+                        <form>
+                            <table class="default">
                                 <tr>
-                                    <th>Buscar</th>
-                                    <td>
+                                    <th style="vertical-align: middle">Buscar</th>
+                                    <td style="vertical-align: middle">
                                         <input type="text" id="textSearch" name="textSearch" autofocus />
                                     </td>
-                                    <th>Cadena</th>
-                                    <td>
-                                        <select id="busqCadenaHotel" name="busqCadenaHotel">
+                                    <th style="vertical-align: middle">Cadena</th>
+                                    <td style="vertical-align: middle">
+                                        <select id="busqCadenaHotel" name="busqCadenaHotel" >
                                             <option value=""></option>
                                             <% 
                                                 try {
@@ -115,8 +115,8 @@
                                             %>
                                         </select>
                                     </td>
-                                    <th>Ciudad</th>
-                                    <td>
+                                    <th style="vertical-align: middle">Ciudad</th>
+                                    <td style="vertical-align: middle">
                                         <select id="busqCiudadHotel" name="busqCiudadHotel">
                                             <option value=""></option>
                                             <% 
@@ -148,7 +148,7 @@
                                             %>
                                         </select>
                                     </td>
-                                    <td>
+                                    <td style="vertical-align: middle">
                                         <button onclick="sendSearchHotel();return false;">Buscar</button>
                                     </td>
 

@@ -38,65 +38,7 @@ public class BuscarHotel extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        
-        Class.forName("org.sqlite.JDBC");
-        Connection conn = null;
-                
-        try {
-            conn = DriverManager.getConnection("jdbc:sqlite:F:\\UNI\\AD\\exemple.db");
-            String selectStatement = "SELECT * FROM hoteles WHERE 1=1 "; //cadena = ? OR ciudad = ? OR nom_hotel like ?";
-            
-            if (!request.getParameter("busqCadenaHotel").equals("")) selectStatement = selectStatement.concat("AND cadena= \'"+request.getParameter("busqCadenaHotel")+"\'" );
-            if (!request.getParameter("busqCiudadHotel").equals("")) selectStatement = selectStatement.concat("AND ciudad= \'"+request.getParameter("busqCiudadHotel")+"\'" );
-            if (!request.getParameter("textSearch").equals("")) selectStatement = selectStatement.concat("AND nom_hotel like \'%"+request.getParameter("textSearch")+"%\'  " );
-                 
-            PreparedStatement prepStmt = conn.prepareStatement(selectStatement);
-            
-            ResultSet rs = prepStmt.executeQuery();
-            String concat = "";
-            if(rs.next()) { 
-                concat = "<table><tr><th>Nombre hotel</th><th>Cadena</th><th>Dirección</th><th>Habitaciones</th></tr>";
-
-                concat += "<tr><td>"+rs.getString("nom_hotel")+"</td>";
-                concat += "<td>"+rs.getString("cadena")+"</td>";
-                concat += "<td>"+rs.getString("calle")+", "+rs.getString("numero")+", "+rs.getString("ciudad")+"</td>";
-                concat += "<td>"+rs.getString("numb_hab")+"</td></tr>";
-               while(rs.next())
-                {
-                    concat += "<tr><td>"+rs.getString("nom_hotel")+"</td>";
-                    concat += "<td>"+rs.getString("cadena")+"</td>";
-                    concat += "<td>"+rs.getString("calle")+" núm. "+rs.getString("numero")+", "+rs.getString("ciudad")+"</td>";
-                    concat += "<td>"+rs.getString("numb_hab")+"</td></tr>";
-                }
-                concat += "</table>";
             }
-            else concat = "No se han encontrado resultados";
-            out.println(concat);
-        } catch (SQLException ex) {
-            Logger.getLogger(BuscarHotel.class.getName()).log(Level.SEVERE, null, ex);
-            response.sendRedirect("error.java?idError=3");
-
-        } 
-        finally
-        {
-            try
-            {
-              if(conn != null)
-                conn.close();
-            }
-            catch(SQLException e)
-            {
-              // connection close failed.
-              System.err.println(e.getMessage());
-            }
-        }
-
-        
-
-        
-    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -151,7 +93,7 @@ public class BuscarHotel extends HttpServlet {
             ResultSet rs = prepStmt.executeQuery();
             String concat = "";
             if(rs.next()) { 
-                concat = "<table><tr><th>Nombre hotel</th><th>Cadena</th><th>Dirección</th><th>Habitaciones</th></tr>";
+                concat = "<table class=default><tr><th>Nombre hotel</th><th>Cadena</th><th>Dirección</th><th>Habitaciones</th></tr>";
 
                 concat += "<tr><td>"+rs.getString("nom_hotel")+"</td>";
                 concat += "<td>"+rs.getString("cadena")+"</td>";

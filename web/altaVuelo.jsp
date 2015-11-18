@@ -39,22 +39,22 @@ and open the template in the editor.
                     <nav id="nav">
                         <ul>
                             <li><a href="index.jsp">Inicio</a></li>
-                            <li>
+                            <li class="current">
                                 <a href="">Vuelo</a>
                                 <ul>
-                                    <li><a href="index.jsp">Insertar vuelo</a></li>
-                                    <li><a href="altaVuelo.jsp">Consultar vuelo</a></li>
-                                    <li class="current"><a href="altaHotel.jsp">Consultar plazas</a></li>
-                                    <li><a href="buscarVuelo.jsp">Reservar plazas</a></li>
+                                    <li><a href="altaVuelo.jsp">Insertar vuelo</a></li>
+                                    <li><a href="buscarVuelo.jsp">Consultar vuelo</a></li>
+                                    <li><a href="LibresVuelos.jsp">Consultar plazas</a></li>
+                                    <li><a href="ReservarVuelo.jsp">Reservar plazas</a></li>
                                 </ul>
                             </li>
                             <li>
                                 <a href="">Hotel</a>
                                 <ul>
-                                    <li><a href="index.jsp">Insertar hotel</a></li>
-                                    <li><a href="altaVuelo.jsp">Consultar hotel</a></li>
-                                    <li class="current"><a href="altaHotel.jsp">Consultar habitaciones</a></li>
-                                    <li><a href="buscarVuelo.jsp">Reservar habitaciones</a></li>
+                                    <li><a href="altaHotel.jsp">Insertar hotel</a></li>
+                                    <li><a href="buscarHotel.jsp">Consultar hotel</a></li>
+                                    <li ><a href="LibresHotel.jsp">Consultar habitaciones</a></li>
+                                    <li><a href="ReservarHotel.jsp">Reservar habitaciones</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -64,8 +64,8 @@ and open the template in the editor.
             <div id="main-wrapper">
                 <div class="container">
                     <div id="content">
-                        <form id="formAltaVuelo" method="post" action="altaVuelo">
-                            <table>
+                        <form>
+                            <table class="default">
                                 <tr>
                                     <th>Número de vuelo</th>
                                     <td><input id="numVuelo" name="numVuelo" type="number" required autofocus/></td>
@@ -84,7 +84,7 @@ and open the template in the editor.
                                         count++;
                                     }
                                 %>
-                                    </select>:
+                                    </select> :
                                     <select id="departMin" name="departMin" required>
                                 <%  count = 0;
                                     while (count < 60) {
@@ -107,7 +107,7 @@ and open the template in the editor.
                                         count++;
                                     }
                                 %>
-                                    </select>:
+                                    </select> :
                                     <select id="arriveMin" name="arriveMin" required/>
                                 <%  count = 0;
                                     while (count < 60) {
@@ -119,8 +119,10 @@ and open the template in the editor.
                                     </select></td>
                                 </tr>
                                 <tr>
-                                    <td><input type="submit" value="Dar de alta"></td>
-                                    <td><input type="reset"></td>
+                                    <td></td>
+                                    <td><button type="submit" value="Dar de alta">Dar de alta</button></td>
+                                    <td><button type="reset">Reset</button></td>
+                                    <td></td>
                                 </tr>
                             </table>
                         </form>
