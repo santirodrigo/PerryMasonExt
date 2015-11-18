@@ -11,13 +11,13 @@ package WSClass;
  */
 public class SOAPHotel {
 
-    private static int consultaLibres(int idHotel, int fecha) {
+    public static int consultaLibres(int idHotel, int fecha) {
         hotel.HotelWS_Service service = new hotel.HotelWS_Service();
         hotel.HotelWS port = service.getHotelWSPort();
         return port.consultaLibres(idHotel, fecha);
     }
 
-    private static int reservaHabitacion(int idHotel, int fecha) {
+    public static int reservaHabitacion(int idHotel, int fecha) {
         hotel.HotelWS_Service service = new hotel.HotelWS_Service();
         hotel.HotelWS port = service.getHotelWSPort();
         return port.reservaHabitacion(idHotel, fecha);

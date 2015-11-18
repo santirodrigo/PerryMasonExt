@@ -11,6 +11,15 @@
     }
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.logging.Logger"%>
+<%@page import="java.util.logging.Level"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.Connection"%>
+<% Class.forName("org.sqlite.JDBC"); %>
+<%! Connection connection = null; %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -66,42 +75,52 @@
                         <form>
                             <table class="default">
                                 <tr>
-                                    <th>Nombre del hotel</th>
-                                    <td><input id="nameHotel" name="nameHotel" maxlength="50" required autofocus/></td>
-                                    <th>Cadena hotelera</th>
-                                    <td><input id="cadenaHotel" name="cadenaHotel" maxlength="50" required /></td>
+                                    <th>Hotel</th>
+                                    <td>
+                                        <select id="busqHotel" name="busqHotel" >
+                                            <option value=""></option>
+                                            <%--<% 
+                                                try {
+                                                    connection = DriverManager.getConnection("jdbc:sqlite:F:\\UNI\\AD\\exemple.db");
+                                                    String selectStatement = "SELECT DISTINCT nom_hotel, id FROM hoteles";
+                                                    PreparedStatement prepStmt = connection.prepareStatement(selectStatement);
+                                                    ResultSet rs = prepStmt.executeQuery();
+                                                    while(rs.next()) {
+                                                        out.println("<option value=\"" + rs.getString(1) + "\">" + rs.getString(2) + "</option>");
+                                                    }
+                                                }
+                                                
+                                                finally
+                                                {
+                                                    try
+                                                    {
+                                                      if(connection != null)
+                                                        connection.close();
+                                                    }
+                                                    catch(SQLException e)
+                                                    {
+                                                      // connection close failed.
+                                                      System.err.println(e.getMessage());
+                                                    }
+                                                }
+                                            %>--%>
+                                        </select>
+                                    <th>Fecha</th>
+                                    <td><input id="fecha" name="fecha" required placeholder="aaaammdd" maxlength="8"/></td>
+                                    <th>Web service</th>
+                                    <td>
+                                        <select id="webservice">
+                                            <option value="SOAP">SOAP</option>
+                                            <option value="REST">REST</option>
+                                        </select>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <th>Número habitaciones</th>
-                                    <td><input type="number" min="0" id="numHabHotel" name="numHabHotel" required /></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="4">Dirección<hr /><td>
-                                </tr>
-                                <tr>
-                                    <th>Calle</th>
-                                    <td><input id="calleHotel" name="calleHotel" maxlength="50" required/></td>
-                                    <th>Número</th>
-                                    <td><input type="number" min="0" id="numHotel" name="numHotel" maxlength="50" required/></td>
-                                </tr>
-                                <tr>
-                                    <th>Código postal</th>
-                                    <td><input id="cpHotel" name="cpHotel" maxlength="50" required /></td>
-                                    <th>Ciudad</th>
-                                    <td><input id="ciudadHotel" name="ciudadHotel" maxlength="50" required /></td>
-                                </tr>
-                                <tr>
-                                    <th>Provincia</th>
-                                    <td><input id="provinciaHotel" name="provinciaHotel" maxlength="50" required /></td>
-                                    <th>Pais</th>
-                                    <td><input id="paisHotel" name="paisHotel" maxlength="50" required /></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td><button type="submit" >Añadir hotel</button></td>
+                                    <td colspan="6" style="text-align: center"><button type="submit" onClick="getnumHab();" >Buscar habitaciones hotel</button></td>
                                 </tr>
                             </table>
                         </form>
+                        <div id="result" ></div>
                     </div>
                 </div>
             </div>

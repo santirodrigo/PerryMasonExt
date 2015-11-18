@@ -5,13 +5,23 @@
  */
 package ADServlets;
 
+import WSClass.RESTConsultaLibresHotel;
+import WSClass.SOAPHotel;
+import hotel.HotelWS_Service;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.WebServiceRef;
 
 /**
  *
@@ -19,6 +29,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "consultaHabitacionesHotel", urlPatterns = {"/consultaHabitacionesHotel"})
 public class consultaHabitacionesHotel extends HttpServlet {
+
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/hotel/hotelWS.wsdl")
+    private HotelWS_Service service;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -72,7 +85,27 @@ public class consultaHabitacionesHotel extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        PrintWriter out = response.getWriter();
+        /* TODO output your page here. You may use following sample code. */
+        int numHab;
+        int idHotel = Integer.valueOf(request.getParameter("hotel"));
+        int fecha = Integer.valueOf(request.getParameter("fecha"));
+        if (request.getParameter("webservice") == "SOAP")
+        {
+            SOAPHotel hotel = new SOAPHotel();
+            numHab = hotel.consultaLibres(idHotel, fecha);
+        }
+        else
+        {
+            RESTConsultaLibresHotel hotel = new RESTConsultaLibresHotel();
+            numHab = Integer.valueOf(hotel.consulta_libres(String.class, request.getParameter("hotel"), request.getParameter("fecha")));     
+        }
+        if (numHab == -1)
+        {
+            //control de errores de BD tener en cuenta!!
+        }
+        if (numHab == 1) out.print("Hay 1 habitación disponible");
+        else if (numHab > 1) out.print("Hay "+ numHab +" habitaciones disponible");
     }
 
     /**
@@ -84,5 +117,12 @@ public class consultaHabitacionesHotel extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private int consultaLibres(int idHotel, int fecha) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        hotel.HotelWS port = service.getHotelWSPort();
+        return port.consultaLibres(idHotel, fecha);
+    }
 
 }

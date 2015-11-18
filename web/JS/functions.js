@@ -66,3 +66,32 @@ function sendSearchVuelo()
     motorAX.send(params);
 }
 
+function getnumHab()
+{
+    var motorAX;
+    if (window.XMLHttpRequest)
+    {// code for IE7+, Firefox, Chrome, Opera, Safari
+        motorAX=new XMLHttpRequest();
+    }
+    else
+    {// code for IE6, IE5
+        motorAX=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+        
+    motorAX.onreadystatechange=function()
+    {
+        if (motorAX.readyState==4 && motorAX.status==200)
+        {
+            document.getElementById("result").innerHTML=motorAX.responseText;
+        }
+    }
+    var hotel = document.getElementById("busqHotel").value;
+    var fecha = document.getElementById("fecha").value;
+    var webservice = document.getElementById("webservice").value;
+  
+    var params = "webservice="+webservice+"&fecha="+fecha+"&hotel="+hotel;
+    
+    motorAX.open("POST","consultarHabitacionesHotel",false);
+    motorAX.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    motorAX.send(params);
+}
