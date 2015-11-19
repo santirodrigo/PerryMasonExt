@@ -26,7 +26,7 @@ and open the template in the editor.
                 <header id="header" class="container">
                     <!-- Logo -->
                     <div id="logo">
-                        <h1><a href="index.html">Perry Mason</a></h1>
+                        <h1><a href="index.jsp">Perry Mason</a></h1>
                     </div>
                 </header>
             </div>
@@ -58,6 +58,17 @@ and open the template in the editor.
                                 </tr>
                             </table>
                         </form>
+                        <%
+                                try
+                                {
+                                    if(request.getParameter("id").equals("1"))
+                                    {
+                                        out.print("<span style=color:green>El usuario o la contraseña es incorrecta</span>");
+                                    }
+                                }catch(java.lang.NullPointerException e){
+                                    
+                                }
+                            %>
                     </div>
                 </div>        
             </div>

@@ -61,7 +61,7 @@ public class login extends HttpServlet {
                 Session.setAttribute("user", request.getParameter("user"));
                 response.sendRedirect("menu.jsp");
             }
-            else response.sendRedirect("error.java?idError=1");
+            else response.sendRedirect("login.jsp?idError=1");
 
         } catch (SQLException ex) {
             

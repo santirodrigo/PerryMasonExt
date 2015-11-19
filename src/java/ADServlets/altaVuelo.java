@@ -59,14 +59,17 @@ public class altaVuelo extends HttpServlet {
             prepStmt.setString(5, request.getParameter("to"));
             prepStmt.setString(6, request.getParameter("arriveHour")+":"+request.getParameter("arriveMin"));
             int result = prepStmt.executeUpdate();
-            if (result == 0) {
-                
+            if (result != 1)
+            {
+                //error de insert?
+                response.sendRedirect("altaVuelo.jsp?id=2");
+            } else {
+                response.sendRedirect("altaVuelo.jsp?id=1");
             }
-            response.sendRedirect("menu.jsp");
             
         } catch (SQLException ex) {
             Logger.getLogger(altaVuelo.class.getName()).log(Level.SEVERE, null, ex);
-            response.sendRedirect("error.java?idError=2");
+            response.sendRedirect("altavuelo.jsp?id=2");
         } finally
         {
             try
@@ -77,7 +80,8 @@ public class altaVuelo extends HttpServlet {
             catch(SQLException e)
             {
               // connection close failed.
-              System.err.println(e.getMessage());
+                response.sendRedirect("altavuelo.jsp?id=2");
+                System.err.println(e.getMessage());
             }
         }
         

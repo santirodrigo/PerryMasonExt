@@ -11,6 +11,15 @@
     }
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.logging.Logger"%>
+<%@page import="java.util.logging.Level"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.Connection"%>
+<% Class.forName("org.sqlite.JDBC"); %>
+<%! Connection connection = null; %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -23,6 +32,8 @@
         <script src="JS/skel.min.js"></script>
         <script src="JS/util.js"></script>
         <script src="JS/main.js"></script>
+        <script src="JS/functions.js"></script>
+
     </head>
     <body class="homepage">
         <div id="page-wrapper">
@@ -67,41 +78,53 @@
                             <table class="default">
                                 <tr>
                                     <th>Nombre del hotel</th>
-                                    <td><input id="nameHotel" name="nameHotel" maxlength="50" required autofocus/></td>
-                                    <th>Cadena hotelera</th>
-                                    <td><input id="cadenaHotel" name="cadenaHotel" maxlength="50" required /></td>
+                                    <td>
+                                        <select id="busqueda" name="busqueda" onChange="setFecha('hotel')">
+                                            <option value=""></option>
+                                            <% 
+                                                try {
+                                                    connection = DriverManager.getConnection("jdbc:sqlite:F:\\UNI\\AD\\practica3.db");
+                                                    String selectStatement = "SELECT DISTINCT id_hotel FROM hotel_fecha";
+                                                    PreparedStatement prepStmt = connection.prepareStatement(selectStatement);
+                                                    ResultSet rs = prepStmt.executeQuery();
+                                                    while(rs.next()) {
+                                                        out.println("<option value=\"" + rs.getString(1) + "\">" + rs.getString(1) + "</option>");
+                                                    }
+                                                }
+                                                
+                                                finally
+                                                {
+                                                    try
+                                                    {
+                                                      if(connection != null)
+                                                        connection.close();
+                                                    }
+                                                    catch(SQLException e)
+                                                    {
+                                                      // connection close failed.
+                                                      System.err.println(e.getMessage());
+                                                    }
+                                                }
+                                            %>
+                                        </select>
+                                    </td>
+                                    <th>Fecha</th>
+                                    <td id="tdFecha">Pendiente del hotel</td>
+                                    <th>Web service</th>
+                                    <td>
+                                        <select id="webservice">
+                                            <option value="SOAP">SOAP</option>
+                                            <option value="REST">REST</option>
+                                        </select>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <th>Número habitaciones</th>
-                                    <td><input type="number" min="0" id="numHabHotel" name="numHabHotel" required /></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="4">Dirección<hr /><td>
-                                </tr>
-                                <tr>
-                                    <th>Calle</th>
-                                    <td><input id="calleHotel" name="calleHotel" maxlength="50" required/></td>
-                                    <th>Número</th>
-                                    <td><input type="number" min="0" id="numHotel" name="numHotel" maxlength="50" required/></td>
-                                </tr>
-                                <tr>
-                                    <th>Código postal</th>
-                                    <td><input id="cpHotel" name="cpHotel" maxlength="50" required /></td>
-                                    <th>Ciudad</th>
-                                    <td><input id="ciudadHotel" name="ciudadHotel" maxlength="50" required /></td>
-                                </tr>
-                                <tr>
-                                    <th>Provincia</th>
-                                    <td><input id="provinciaHotel" name="provinciaHotel" maxlength="50" required /></td>
-                                    <th>Pais</th>
-                                    <td><input id="paisHotel" name="paisHotel" maxlength="50" required /></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td><button type="submit" >Añadir hotel</button></td>
+                                    <td colspan="6" style="text-align: center"><button type="submit" onClick="reservaHabitacionHotel();return false;">Reservar habitación hotel</button></td>
                                 </tr>
                             </table>
                         </form>
+                        <div id="result">
+                        </div>
                     </div>
                 </div>
             </div>

@@ -41,7 +41,7 @@ public class buscarVuelo extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<h1>Aquí tienes los resultados de la búsqueda</h1>");
+            out.println("<h1>Resultados</h1>");
             
             Class.forName("org.sqlite.JDBC");
             Connection connection = null;
@@ -76,7 +76,7 @@ public class buscarVuelo extends HttpServlet {
                 }
                 PreparedStatement prepStmt = connection.prepareStatement(selectStatement);
                 ResultSet rs = prepStmt.executeQuery();
-                out.println("<table>");
+                out.println("<table class=default>");
                 int numbrows = 0;
                 if(rs.next()) {
                     out.print("<tr><th>Número de vuelo</th><th>Compañía</th>");
@@ -101,11 +101,10 @@ public class buscarVuelo extends HttpServlet {
                     }
                 }
                 out.println("</table>");
-                if (numbrows == 0) out.println("<h2>No hemos encontrado ningún vuelo con los requisitos solicitados</h2>");
-                else if (numbrows == 1) out.println("<h2>Hemos encontrado 1 resultado a tu búsqueda</h2>");
-                else out.println("<h2>Hemos encontrado "+ numbrows + " resultados a tu búsqueda</h2>");
+                if (numbrows == 0) out.println("<span>No hemos encontrado ningún vuelo con los requisitos solicitados</span>");
+                else if (numbrows == 1) out.println("<span>Hemos encontrado 1 resultado a tu búsqueda</span>");
+                else out.println("<span>Hemos encontrado "+ numbrows + " resultados a tu búsqueda</span>");
             } catch (SQLException ex) {
-                response.sendRedirect("error.java?idError=3");
                 Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
             }
             finally

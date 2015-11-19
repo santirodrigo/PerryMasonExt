@@ -55,7 +55,6 @@ public class altaHotel extends HttpServlet {
                                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement prepStmt = connection.prepareStatement(selectStatement);
             
-            Integer.parseInt(request.getParameter("numHabHotel"));
             prepStmt.setString(1, request.getParameter("nameHotel"));
             prepStmt.setString(2, request.getParameter("cadenaHotel"));
             prepStmt.setInt(3, Integer.parseInt(request.getParameter("numHabHotel")));
@@ -71,13 +70,13 @@ public class altaHotel extends HttpServlet {
             if (rowAffected != 1)
             {
                 //error de insert?
-                response.sendRedirect("error.java?idError=4");
+                response.sendRedirect("altaHotel.jsp?id=2");
             } else {
-                response.sendRedirect("menu.jsp");
+                response.sendRedirect("altaHotel.jsp?id=1");
             }
         } catch (SQLException ex) {
             Logger.getLogger(altaHotel.class.getName()).log(Level.SEVERE, null, ex);
-            response.sendRedirect("error.java?idError=2");
+            response.sendRedirect("altaHotel.jsp?id=2");
         } finally
         {
             try

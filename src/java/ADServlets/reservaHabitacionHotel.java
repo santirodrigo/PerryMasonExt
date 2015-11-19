@@ -5,6 +5,7 @@
  */
 package ADServlets;
 
+import hotel.HotelWS_Service;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -12,13 +13,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.WebServiceRef;
 
 /**
  *
  * @author pimen
  */
-@WebServlet(name = "ReservaHabitacionHotel", urlPatterns = {"/ReservaHabitacionHotel"})
+@WebServlet(name = "reservaHabitacionHotel", urlPatterns = {"/reservaHabitacionHotel"})
 public class reservaHabitacionHotel extends HttpServlet {
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/hotel/hotelWS.wsdl")
+    private HotelWS_Service service;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -72,7 +76,28 @@ public class reservaHabitacionHotel extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        PrintWriter out = response.getWriter();
+        response.setContentType("text/html;charset=UTF-8");
+
+        /* TODO output your page here. You may use following sample code. */
+        int numHab;
+        int idHotel = Integer.valueOf(request.getParameter("hotel"));
+        int fecha = Integer.valueOf(request.getParameter("fecha"));
+        if ("SOAP".equals(request.getParameter("webservice")))
+        {
+            numHab = reservaHabitacion(idHotel, fecha);
+        }
+        else
+        {
+            WSClass.RESTReservaHotel hotel = new WSClass.RESTReservaHotel();
+            numHab = Integer.valueOf(hotel.reserva_habitacion(String.class, request.getParameter("hotel"), request.getParameter("fecha")));     
+        }
+        if (numHab == -1)
+        {
+            out.print("No se ha podido reservar habitación. Contacte con el administrador");
+        }
+        if (numHab == 0) out.print("No se ha podido reservar porque ya no quedan habitaciones libres");
+        else if (numHab > 0) out.print("Se ha reservado correctamente. El número de habitaciones ocupadas es de "+numHab);
     }
 
     /**
@@ -84,5 +109,12 @@ public class reservaHabitacionHotel extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private int reservaHabitacion(int idHotel, int fecha) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        hotel.HotelWS port = service.getHotelWSPort();
+        return port.reservaHabitacion(idHotel, fecha);
+    }
 
 }

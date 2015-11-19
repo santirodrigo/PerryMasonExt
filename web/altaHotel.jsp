@@ -4,7 +4,6 @@
     Author     : sergi.soriano.bial
 --%>
 <%
-    session=request.getSession();
     if (session.getAttribute("user") == null)
     {
         response.sendRedirect("login.jsp");
@@ -63,7 +62,7 @@
             <div id="main-wrapper">
                 <div class="container">
                     <div id="content">
-                        <form>
+                        <form action="altaHotel" method="POST">
                             <table class="default">
                                 <tr>
                                     <th>Nombre del hotel</th>
@@ -102,6 +101,23 @@
                                 </tr>
                             </table>
                         </form>
+                        <div id="result">
+                            <%
+                                try
+                                {
+                                    if(request.getParameter("id").equals("1"))
+                                    {
+                                        out.print("El hotel se ha dado de alta correctamente.");
+                                    }
+                                    else if(request.getParameter("id").equals("2"))
+                                    {
+                                        out.print("<span style=color:red>Se ha producido algún error. Contacta con el administrador.</span>");
+                                    }
+                                }catch(java.lang.NullPointerException e){
+                                    
+                                }
+                            %>
+                        </div>
                     </div>
                 </div>
             </div>

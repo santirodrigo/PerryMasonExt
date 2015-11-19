@@ -64,7 +64,7 @@ and open the template in the editor.
             <div id="main-wrapper">
                 <div class="container">
                     <div id="content">
-                        <form>
+                        <form action="altaVuelo" method="POST">
                             <table class="default">
                                 <tr>
                                     <th>Número de vuelo</th>
@@ -126,6 +126,23 @@ and open the template in the editor.
                                 </tr>
                             </table>
                         </form>
+                        <div id="result">
+                            <%
+                                try
+                                {
+                                    if(request.getParameter("id").equals("1"))
+                                    {
+                                        out.print("<span style=color:green>El vuelo se ha dado de alta correctamente.</span>");
+                                    }
+                                    else if(request.getParameter("id").equals("2"))
+                                    {
+                                        out.print("<span style=color:red>Se ha producido algún error. Contacta con el administrador.</span>");
+                                    }
+                                }catch(java.lang.NullPointerException e){
+                                    
+                                }
+                            %>
+                        </div>
                     </div>
                 </div>
             </div>

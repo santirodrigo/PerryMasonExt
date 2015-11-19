@@ -97,7 +97,6 @@
                                                         out.println("<option value=\"" + rs.getString(1) + "\">" + rs.getString(1) + "</option>");
                                                     }
                                                 } catch (SQLException ex) {
-                                                    response.sendRedirect("error.java?idError=3");
                                                     Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
                                                 }
                                                 finally
@@ -130,7 +129,6 @@
                                                         out.println("<option value=\"" + rs.getString(1) + "\">" + rs.getString(1) + "</option>");
                                                     }
                                                 } catch (SQLException ex) {
-                                                    response.sendRedirect("error.java?idError=3");
                                                     Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
                                                 }
                                                 finally
@@ -165,7 +163,6 @@
                                                         out.println("<option value=\"" + rs.getString(1) + "\">" + rs.getString(1) + "</option>");
                                                     }
                                                 } catch (SQLException ex) {
-                                                    response.sendRedirect("error.java?idError=3");
                                                     Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
                                                 }
                                                 finally
@@ -198,7 +195,6 @@
                                                         out.println("<option value=\"" + rs.getString(1) + "\">" + rs.getString(1) + "</option>");
                                                     }
                                                 } catch (SQLException ex) {
-                                                    response.sendRedirect("error.java?idError=3");
                                                     Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
                                                 }
                                                 finally
@@ -233,7 +229,6 @@
                                                         out.println("<option value=\"" + rs.getString(1) + "\">" + rs.getString(1) + "</option>");
                                                     }
                                                 } catch (SQLException ex) {
-                                                    response.sendRedirect("error.java?idError=3");
                                                     Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
                                                 }
                                                 finally
@@ -266,7 +261,6 @@
                                                         out.println("<option value=\"" + rs.getString(1) + "\">" + rs.getString(1) + "</option>");
                                                     }
                                                 } catch (SQLException ex) {
-                                                    response.sendRedirect("error.java?idError=3");
                                                     Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
                                                 }
                                                 finally
@@ -287,8 +281,10 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><button onclick="sendSearchVuelo();return false;">Buscar</button></td>
+                                    <td></td>
+                                    <td><input type=submit onclick="sendSearchVuelo();return false;" value="Buscar"/></td>
                                     <td><input type="reset"></td>
+                                    <td></td>
                                 </tr>
                             </table>
                         </form>

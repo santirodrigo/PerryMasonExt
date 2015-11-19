@@ -12,6 +12,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.WebServiceRef;
+import vuelo.VueloWS_Service;
 
 /**
  *
@@ -19,6 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "consultaPlazasVuelo", urlPatterns = {"/consultaPlazasVuelo"})
 public class consultaPlazasVuelo extends HttpServlet {
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/vuelo/vueloWS.wsdl")
+    private VueloWS_Service service;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +41,10 @@ public class consultaPlazasVuelo extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet consultaPlazasVuelo</title>");            
+            out.println("<title>Servlet consultaHabitacionesHotel</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet consultaPlazasVuelo at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet consultaHabitacionesHotel at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -72,7 +76,27 @@ public class consultaPlazasVuelo extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        PrintWriter out = response.getWriter();
+        /* TODO output your page here. You may use following sample code. */
+        int numPlazas;
+        int idVuelo = Integer.valueOf(request.getParameter("vuelo"));
+        int fecha = Integer.valueOf(request.getParameter("fecha"));
+        if ("SOAP".equals(request.getParameter("webservice")))
+        {
+            numPlazas = consultaLibres(idVuelo, fecha);
+        }
+        else
+        {
+            WSClass.RESTConsultaLibresVuelo vuelo = new WSClass.RESTConsultaLibresVuelo();
+            numPlazas = Integer.valueOf(vuelo.consulta_libres(String.class, request.getParameter("vuelo"), request.getParameter("fecha")));     
+        }
+        if (numPlazas == -1)
+        {
+            out.print("No existe este vuelo con esta fecha");
+        }
+        if (numPlazas == 0) out.print("No hay plazas disponibles");
+        else if (numPlazas == 1) out.print("Hay 1 plaza disponible");
+        else if (numPlazas > 1) out.print("Hay "+ numPlazas +" plazas disponible");
     }
 
     /**
@@ -85,4 +109,10 @@ public class consultaPlazasVuelo extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    private int consultaLibres(int idVuelo, int fecha) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        vuelo.VueloWS port = service.getVueloWSPort();
+        return port.consultaLibres(idVuelo, fecha);
+    }
 }

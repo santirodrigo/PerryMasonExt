@@ -7,7 +7,16 @@
 <%
     if (session.getAttribute("user") == null) response.sendRedirect("login.jsp");
 %>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.logging.Logger"%>
+<%@page import="java.util.logging.Level"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.Connection"%>
+<% Class.forName("org.sqlite.JDBC"); %>
+<%! Connection connection = null; %>
 <html>
     <head>
         <title>Dar de alta un vuelo - Perry Mason & Co.</title>
@@ -19,11 +28,13 @@
         <script src="JS/skel.min.js"></script>
         <script src="JS/util.js"></script>
         <script src="JS/main.js"></script>
+        <script src="JS/functions.js"></script>
+
     </head>
     <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Sesión cerrada</title>
+        <title>SesiÃ³n cerrada</title>
     </head>
     <body class="homepage">
         <div id="page-wrapper">
@@ -33,7 +44,7 @@
                     <!-- Logo -->
                     <div id="logo">
                         <h1><a href="index.jsp">Perry Mason</a></h1>
-                        <span>Hola <%=session.getAttribute("user") %>, (<a href="logout.jsp">Cerrar sesión</a>) </span>
+                        <span>Hola <%=session.getAttribute("user") %>, (<a href="logout.jsp">Cerrar sesiÃ³n</a>) </span>
                     </div>
                     <!-- Nav -->
                     <nav id="nav">
@@ -67,63 +78,54 @@
                         <form>
                             <table class="default">
                                 <tr>
-                                    <th>Número de vuelo</th>
-                                    <td><input id="numVuelo" name="numVuelo" type="number" required autofocus/></td>
-                                    <th>Compañía</th>
-                                    <td><input id="company" name="company" required/></td>
+                                    <th>Id del vuelo</th>
+                                    <td>
+                                        <select id="busqueda" name="busqueda" onChange="setFecha('hotel')">
+                                            <option value=""></option>
+                                            <% 
+                                                try {
+                                                    connection = DriverManager.getConnection("jdbc:sqlite:F:\\UNI\\AD\\practica3.db");
+                                                    String selectStatement = "SELECT DISTINCT id_vuelo FROM vuelo_fecha";
+                                                    PreparedStatement prepStmt = connection.prepareStatement(selectStatement);
+                                                    ResultSet rs = prepStmt.executeQuery();
+                                                    while(rs.next()) {
+                                                        out.println("<option value=\"" + rs.getString(1) + "\">" + rs.getString(1) + "</option>");
+                                                    }
+                                                }
+                                                
+                                                finally
+                                                {
+                                                    try
+                                                    {
+                                                      if(connection != null)
+                                                        connection.close();
+                                                    }
+                                                    catch(SQLException e)
+                                                    {
+                                                      // connection close failed.
+                                                      System.err.println(e.getMessage());
+                                                    }
+                                                }
+                                            %>
+                                        </select>
+                                    </td>
+                                    <th>Fecha</th>
+                                    <td id="tdFecha">Pendiente del vuelo</td>
+                                    <th>Web service</th>
+                                    <td>
+                                        <select id="webservice">
+                                            <option value="SOAP">SOAP</option>
+                                            <option value="REST">REST</option>
+                                        </select>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <th>Ciudad de origen</th>
-                                    <td><input id="from" name="from" required/></td>
-                                    <th>Hora de salida</th>
-                                    <td><select id="departHour" name="departHour" required>
-                                <%  int count = 0;
-                                    while (count < 24) {
-                                        if (count >= 10) out.println("<option value=\""+count+"\">"+count+"</option>");
-                                        else out.println("<option value=\"0"+count+"\">0"+count+"</option>");
-                                        count++;
-                                    }
-                                %>
-                                    </select>:
-                                    <select id="departMin" name="departMin" required>
-                                <%  count = 0;
-                                    while (count < 60) {
-                                        if (count >= 10) out.println("<option value=\""+count+"\">"+count+"</option>");
-                                        else out.println("<option value=\"0"+count+"\">0"+count+"</option>");
-                                        count++;
-                                    }
-                                %>
-                                    </select></td>
-                                </tr>
-                                <tr>
-                                    <th>Ciudad de destino</th>
-                                    <td><input id="to" name="to" required/></td>
-                                    <th>Hora de llegada</th>
-                                    <td><select id="arriveHour" name="arriveHour" required/>
-                                <%  count = 0;
-                                    while (count < 24) {
-                                        if (count >= 10) out.println("<option value=\""+count+"\">"+count+"</option>");
-                                        else out.println("<option value=\"0"+count+"\">0"+count+"</option>");
-                                        count++;
-                                    }
-                                %>
-                                    </select>:
-                                    <select id="arriveMin" name="arriveMin" required/>
-                                <%  count = 0;
-                                    while (count < 60) {
-                                        if (count >= 10) out.println("<option value=\""+count+"\">"+count+"</option>");
-                                        else out.println("<option value=\"0"+count+"\">0"+count+"</option>");
-                                        count++;
-                                    }
-                                %>
-                                    </select></td>
-                                </tr>
-                                <tr>
-                                    <td><input type="submit" value="Dar de alta"></td>
-                                    <td><input type="reset"></td>
+                                    <td colspan="6" style="text-align: center"><button type="submit" onClick="reservaPlazaVuelo();return false;">Reservar plaza vuelo</button></td>
                                 </tr>
                             </table>
                         </form>
+                        <div id="result">
+                        </div>
                     </div>
                 </div>
             </div>

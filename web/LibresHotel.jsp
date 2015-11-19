@@ -33,7 +33,6 @@
         <script src="JS/util.js"></script>
         <script src="JS/main.js"></script>
         <script src="JS/functions.js"></script>
-
     </head>
     <body class="homepage">
         <div id="page-wrapper">
@@ -108,7 +107,9 @@
                                             %>
                                         </select>
                                     <th>Fecha</th>
-                                    <td><input id="fecha" name="fecha" required placeholder="aaaammdd" maxlength="8"/></td>
+                                    <td>
+                                        <input required placeholder="aaaammdd" name="fechaBuscar" maxlength="8" id="fecha"/>
+                                    </td>
                                     <th>Web service</th>
                                     <td>
                                         <select id="webservice">
@@ -118,15 +119,14 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="6" style="text-align: center"><button type="submit" onClick="getnumHab();return false;" >Buscar habitaciones hotel</button></td>
+                                    <td colspan="6" style="text-align: center">
+                                        <input type="submit" onClick="getnumHab();return false;" value="Buscar habitaciones hotel" />
+                                    </td>
                                 </tr>
                             </table>
                         </form>
-                                        <div id="result" >
-                                            "<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>GlassFish Server Open Source Edition  4.1.1  - Error report</title><style type="text/css"><!--H1 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:22px;} H2 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:16px;} H3 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:14px;} BODY {font-family:Tahoma,Arial,sans-serif;color:black;background-color:white;} B {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;} P {font-family:Tahoma,Arial,sans-serif;background:white;color:black;font-size:12px;}A {color : black;}HR {color : #525D76;}--></style> </head><body><h1>HTTP Status 500 - Internal Server Error</h1><hr/><p><b>type</b> Exception report</p><p><b>message</b>Internal Server Error</p><p><b>description</b>The server encountered an internal error that prevented it from fulfilling this request.</p><p><b>exception</b> <pre>javax.xml.ws.WebServiceException: Fallo al acceder al WSDL en: http://localhost:8080/hotel/hotelWS?wsdl. Ha fallado con: 	http://localhost:8080/hotel/hotelWS?wsdl.</pre></p><p><b>note</b> <u>The full stack traces of the exception and its root causes are available in the GlassFish Server Open Source Edition  4.1.1  logs.</u></p><hr/><h3>GlassFish Server Open Source Edition  4.1.1 </h3></body></html>"
-                                            
-                                            
-                                        </div>
+                        <div id="result" >
+                        </div>
                     </div>
                 </div>
             </div>
