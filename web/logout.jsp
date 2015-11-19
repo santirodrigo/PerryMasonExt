@@ -31,7 +31,11 @@
             <div id="main-wrapper">
                 <div class="container">
                     <div id="content">
-                        <p>La sesión se ha cerrado correctamente.</p>
+                        <p>
+                            La sesión se ha cerrado correctamente.
+                            <br /> Si quieres volver a entrar puedes <a href=login.jsp title="Log in">adelante</a>!
+                        </p>
+                        
                     </div>
                 </div>        
             </div>

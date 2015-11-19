@@ -53,22 +53,25 @@ and open the template in the editor.
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td></td>
-                                    <td><button type="submit" value="Log in">Log in</button></td>
+                                    <td colspan="2" style="text-align:center">
+                                        <button type="submit" value="Log in">Log in</button>
+                                        <br />
+                                        <%
+                                            try
+                                            {
+                                                if(request.getParameter("idError").equals("1"))
+                                                {
+                                                    out.print("<span style=color:red>El usuario o la contraseña es incorrecta</span>");
+                                                }
+                                            }catch(java.lang.NullPointerException e){
+
+                                            }
+                                        %>
+                                    </td>
                                 </tr>
                             </table>
                         </form>
-                        <%
-                                try
-                                {
-                                    if(request.getParameter("id").equals("1"))
-                                    {
-                                        out.print("<span style=color:green>El usuario o la contraseña es incorrecta</span>");
-                                    }
-                                }catch(java.lang.NullPointerException e){
-                                    
-                                }
-                            %>
+                        
                     </div>
                 </div>        
             </div>
