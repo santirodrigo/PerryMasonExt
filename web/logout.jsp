@@ -1,16 +1,22 @@
-<%-- 
-    Document   : logout.jsp
-    Created on : 29-sep-2015, 15:39:54
-    Author     : Santi
---%>
 
+<%@page import="org.apache.http.client.methods.HttpPost"%>
+<%@page import="org.apache.http.client.HttpClient"%>
 <%@page import="ADServlets.login"%>
 <%@page import="java.util.logging.Logger"%>
 <%@page import="java.util.logging.Level"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%  if (session.getAttribute("user") == null) response.sendRedirect("login.jsp");
-            else session.setAttribute("user", null);%>
+            else {
+                session.setAttribute("user", null);
+                session.setAttribute("code", null);
+
+                HttpClient client;
+                HttpPost post = new HttpPost("https://accounts.google.com/o/oauth2/revoke?token="+ACCESS_TOKEN);
+                response = client.execute(post);
+
+            }
+%>
 <html>
     <head>
         <title>Sesión cerrada</title>
