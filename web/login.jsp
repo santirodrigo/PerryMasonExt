@@ -3,6 +3,7 @@
     Created on : 29-sep-2015, 16:17:43
     Author     : sergi.soriano.bial
 --%>
+<%@page import="com.google.api.client.auth.oauth2.Credential"%>
 <%@page import="org.json.JSONArray"%>
 <%@page import="org.json.JSONObject"%>
 <%@page import="ADServlets.GoogleAuthHelper"%>
@@ -74,7 +75,7 @@ and open the template in the editor.
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2">
+                                    <td colspan="2" style="text-align:center">
                                     <%
                                             /*
                                              * The GoogleAuthHelper handles all the heavy lifting, and contains all "secrets"
@@ -83,39 +84,27 @@ and open the template in the editor.
                                             GoogleAuthHelper helper = new GoogleAuthHelper();
                                             if (request.getParameter("code") == null || request.getParameter("state") == null) {
 
-                                                    /*
-                                                     * initial visit to the page
-                                                     */
-                                                    out.println("<a href='" + helper.buildLoginUrl()
-                                                                    + "'>log in with google</a>");
+                                                /*
+                                                 * initial visit to the page
+                                                 */
+                                                out.println("<button type=\"button\" onclick=\"location.href = '" + helper.buildLoginUrl() + "';\" value=\"Google Log in\">Google Log in</button>");
+                                                /*out.println("<a href='" + helper.buildLoginUrl()
+                                                                + "'>log in with google</a>");*/
 
-                                                    /*
-                                                     * set the secure state token in session to be able to track what we sent to google
-                                                     */
-                                                    session.setAttribute("state", helper.getStateToken());
-                                                    out.println("hola");
+                                                /*
+                                                 * set the secure state token in session to be able to track what we sent to google
+                                                 */
+                                                
+                                                session.setAttribute("state", helper.getStateToken());
                                             } else if (request.getParameter("code") != null && request.getParameter("state") != null
                                                             && request.getParameter("state").equals(session.getAttribute("state"))) {
 
-                                                    session.removeAttribute("state");
-                                                    JSONObject json = new JSONObject(helper.getUserInfoJson(request.getParameter("code")));
-                                                    session.setAttribute("user", json.getString("given_name") );
-                                                    response.sendRedirect("menu.jsp");
-
-                                                    out.println("<pre>");
-                                                    /*
-                                                     * Executes after google redirects to the callback url.
-                                                     * Please note that the state request parameter is for convenience to differentiate
-                                                     * between authentication methods (ex. facebook oauth, google oauth, twitter, in-house).
-                                                     * 
-                                                     * GoogleAuthHelper()#getUserInfoJson(String) method returns a String containing
-                                                     * the json representation of the authenticated user's information. 
-                                                     * At this point you should parse and persist the info.
-                                                     */
-
-                                                    //out.println(helper.getUserInfoJson(request.getParameter("code")));
-
-                                                    out.println("</pre>");
+                                                session.removeAttribute("state");
+                                                JSONObject json = new JSONObject(helper.getUserInfoJson(request.getParameter("code")));
+                                                Credential cred = helper.getUserCredential();
+                                                session.setAttribute("token", cred.getAccessToken());
+                                                session.setAttribute("user", json.getString("given_name") );
+                                                response.sendRedirect("menu.jsp");
                                             }
                                     %>
                                     </td>

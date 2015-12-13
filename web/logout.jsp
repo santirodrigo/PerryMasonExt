@@ -1,21 +1,29 @@
 
-<%@page import="org.apache.http.client.methods.HttpPost"%>
+<%@page import="java.net.HttpURLConnection"%>
+<%@page import="java.io.InputStream"%>
+<%@page import="java.net.URL"%>
+<%@page import="java.net.URLConnection"%>
 <%@page import="org.apache.http.client.HttpClient"%>
+<%@page import="org.apache.http.client.methods.HttpGet"%>
+<%@page import="org.apache.http.HttpResponse"%>
+<%@page import="com.google.api.client.auth.oauth.OAuthGetAccessToken"%>
+<%@page import="org.apache.http.client.methods.HttpPost"%>
 <%@page import="ADServlets.login"%>
 <%@page import="java.util.logging.Logger"%>
 <%@page import="java.util.logging.Level"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%  if (session.getAttribute("user") == null) response.sendRedirect("login.jsp");
-            else {
-                session.setAttribute("user", null);
-                session.setAttribute("code", null);
-
-                HttpClient client;
-                HttpPost post = new HttpPost("https://accounts.google.com/o/oauth2/revoke?token="+ACCESS_TOKEN);
-                response = client.execute(post);
-
-            }
+<%  boolean googleLogoutError = true;
+    if (session.getAttribute("user") == null) response.sendRedirect("login.jsp");
+    else {
+        session.setAttribute("user", null);
+        session.setAttribute("code", null);
+        String url = "https://accounts.google.com/o/oauth2/revoke?token="+session.getAttribute("token");
+        URLConnection connection = new URL(url).openConnection();
+        InputStream resp = connection.getInputStream();
+        int status = ((HttpURLConnection)connection).getResponseCode();
+        if (status == 200) googleLogoutError = false;
+    }
 %>
 <html>
     <head>
@@ -38,8 +46,10 @@
                 <div class="container">
                     <div id="content">
                         <p>
-                            La sesión se ha cerrado correctamente.
-                            <br /> Si quieres volver a entrar puedes <a href=login.jsp title="Log in">adelante</a>!
+                        <% if (googleLogoutError) out.println("Ha habido un error borrando tus datos de sesión de Google.");
+                           else out.println("La sesión se ha cerrado correctamente.");
+                        %>
+                            <br /> Si quieres volver a entrar, puedes hacerlo: <a href=login.jsp title="Log in">adelante</a>!
                         </p>
                         
                     </div>

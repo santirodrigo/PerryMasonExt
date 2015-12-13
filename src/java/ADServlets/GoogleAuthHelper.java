@@ -1,6 +1,7 @@
 package ADServlets;
 
 import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.auth.oauth2.StoredCredential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeRequestUrl;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
@@ -11,6 +12,7 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson.JacksonFactory;
+import com.google.api.client.util.store.DataStore;
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.Arrays;
@@ -46,6 +48,8 @@ public final class GoogleAuthHelper {
 	
 	private String stateToken;
 	
+        private Credential lastCredential;
+        
 	private final GoogleAuthorizationCodeFlow flow;
 	
 	/**
@@ -54,7 +58,6 @@ public final class GoogleAuthHelper {
 	public GoogleAuthHelper() {
 		flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT,
 				JSON_FACTORY, CLIENT_ID, CLIENT_SECRET, SCOPE).build();
-		
 		generateStateToken();
 	}
 
@@ -81,6 +84,7 @@ public final class GoogleAuthHelper {
 	
 	/**
 	 * Accessor for state token
+         * @return 
 	 */
 	public String getStateToken(){
 		return stateToken;
@@ -90,12 +94,13 @@ public final class GoogleAuthHelper {
 	 * Expects an Authentication Code, and makes an authenticated request for the user's profile information
 	 * @return JSON formatted user profile information
 	 * @param authCode authentication code provided by google
+         * @throws java.io.IOException
 	 */
 	public String getUserInfoJson(final String authCode) throws IOException {
 
 		final GoogleTokenResponse response = flow.newTokenRequest(authCode).setRedirectUri(CALLBACK_URI).execute();
-		final Credential credential = flow.createAndStoreCredential(response, null);
-		final HttpRequestFactory requestFactory = HTTP_TRANSPORT.createRequestFactory(credential);
+		lastCredential = flow.createAndStoreCredential(response, null);
+		final HttpRequestFactory requestFactory = HTTP_TRANSPORT.createRequestFactory(lastCredential);
 		// Make an authenticated request
 		final GenericUrl url = new GenericUrl(USER_INFO_URL);
 		final HttpRequest request = requestFactory.buildGetRequest(url);
@@ -105,6 +110,10 @@ public final class GoogleAuthHelper {
 		return jsonIdentity;
 
 	}
+        
+        public Credential getUserCredential() throws IOException {
+            return lastCredential;
+        }
 
 	
 
